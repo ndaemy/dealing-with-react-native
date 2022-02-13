@@ -25,6 +25,7 @@
     }
   },
   "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
     "arrow-body-style": "off",
     "camelcase": "error",
     "comma-dangle": ["error", "always-multiline"],
@@ -80,6 +81,7 @@
     ],
     "no-use-before-define": ["error", { "functions": false }],
     "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
+    "no-unused-vars": "off",
     "prefer-const": [
       "error",
       { "destructuring": "all" }

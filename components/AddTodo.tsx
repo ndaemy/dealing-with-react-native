@@ -42,10 +42,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddTodo = () => {
+interface AddTodoProps {
+  onInsert: (text: string) => void;
+}
+
+const AddTodo: React.FC<AddTodoProps> = ({ onInsert }) => {
   const [text, setText] = useState("");
 
   const handlePress = () => {
+    onInsert(text);
     setText("");
     Keyboard.dismiss();
   };
