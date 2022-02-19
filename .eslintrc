@@ -1,0 +1,94 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": { }
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "arrow-body-style": "off",
+    "camelcase": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "import/no-unresolved": [
+      "error",
+      { "caseSensitive": false }
+    ],
+    "import/extensions": [
+      "error", {
+        "png": "always"
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-constant-condition": ["error", { "checkLoops": true }],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForOfStatement",
+        "message": "iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations."
+      },
+      {
+        "selector": "LabeledStatement",
+        "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+      },
+      {
+        "selector": "WithStatement",
+        "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+      }
+    ],
+    "no-use-before-define": ["error", { "functions": false }],
+    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
+    "no-unused-vars": "off",
+    "prefer-const": [
+      "error",
+      { "destructuring": "all" }
+    ],
+    "prefer-destructuring": ["error", { "array": true, "object": true }, { "enforceForRenamedProperties": true }],
+    "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }],
+    "react/jsx-filename-extension": "off",
+    "spaced-comment": ["error", "always"]
+  }
+}
