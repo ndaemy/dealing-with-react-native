@@ -1,64 +1,71 @@
 import React from "react";
-import { createDrawerNavigator, DrawerScreenProps } from "@react-navigation/drawer";
+import { Text } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { NavigationContainer } from "@react-navigation/native";
-import { Button, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export type RootStackParamList = {
-  Home: undefined;
-  Settings: undefined;
+const Tab = createBottomTabNavigator();
+
+const HomeScreen: React.FC = () => {
+  return <Text>Home</Text>;
 };
 
-const Drawer = createDrawerNavigator<RootStackParamList>();
-
-type HomeScreenProps = DrawerScreenProps<RootStackParamList, "Home">;
-
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Home</Text>
-      <Button title="Open Drawer" onPress={() => navigation.openDrawer()} />
-      <Button title="Open Settings" onPress={() => navigation.navigate("Settings")} />
-    </View>
-  );
+const SearchScreen: React.FC = () => {
+  return <Text>Search</Text>;
 };
 
-type SettingsScreenProps = DrawerScreenProps<RootStackParamList, "Settings">;
+const NotificationScreen: React.FC = () => {
+  return <Text>Notification</Text>;
+};
 
-const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Settings</Text>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
+const MessageScreen: React.FC = () => {
+  return <Text>Message</Text>;
 };
 
 const App: React.FC = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
+      <Tab.Navigator
         initialRouteName="Home"
-        backBehavior="history"
-        drawerContent={({ navigation }) => (
-          <SafeAreaView>
-            <Text>A Custom Drawer</Text>
-            <Button title="Close Drawer" onPress={() => navigation.closeDrawer()} />
-          </SafeAreaView>
-        )}
         screenOptions={{
-          drawerActiveBackgroundColor: "#fb8c00",
-          drawerActiveTintColor: "white",
-          drawerPosition: "left",
-          headerShown: false,
+          tabBarActiveTintColor: "#fb8c00",
+          tabBarShowLabel: false,
         }}>
-        <Drawer.Screen
+        <Tab.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "홈", headerLeft: () => <Text>Left</Text> }}
+          options={{
+            title: "홈",
+            tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
+          }}
         />
-        <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: "설정" }} />
-      </Drawer.Navigator>
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            title: "검색",
+            tabBarIcon: ({ color, size }) => <Icon name="search" color={color} size={size} />,
+          }}
+        />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={{
+            title: "알림",
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="notifications" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Message"
+          component={MessageScreen}
+          options={{
+            title: "메시지",
+            tabBarIcon: ({ color, size }) => <Icon name="message" color={color} size={size} />,
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
