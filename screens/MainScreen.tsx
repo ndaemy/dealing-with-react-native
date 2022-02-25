@@ -4,11 +4,11 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { RootStackParamList } from "../App";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabNavigationProp,
-} from "@react-navigation/material-top-tabs";
+  createMaterialBottomTabNavigator,
+  MaterialBottomTabNavigationProp,
+} from "@react-navigation/material-bottom-tabs";
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 type MainTabParamList = {
   Home: undefined;
@@ -18,7 +18,7 @@ type MainTabParamList = {
 };
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Main"> &
-  MaterialTopTabNavigationProp<MainTabParamList, "Home">;
+  MaterialBottomTabNavigationProp<MainTabParamList, "Home">;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
@@ -43,20 +43,15 @@ const MessageScreen: React.FC = () => {
 
 const MainScreen: React.FC = () => {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        tabBarIndicatorStyle: {
-          backgroundColor: "#009688",
-        },
-        tabBarActiveTintColor: "#009688",
-      }}>
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
           tabBarLabel: "홈",
           tabBarIcon: ({ color }) => <Icon name="home" color={color} size={24} />,
+          tabBarColor: "black",
+          tabBarBadge: "new",
         }}
       />
       <Tab.Screen
@@ -65,6 +60,7 @@ const MainScreen: React.FC = () => {
         options={{
           tabBarLabel: "검색",
           tabBarIcon: ({ color }) => <Icon name="search" color={color} size={24} />,
+          tabBarColor: "gray",
         }}
       />
       <Tab.Screen
@@ -73,6 +69,8 @@ const MainScreen: React.FC = () => {
         options={{
           tabBarLabel: "알림",
           tabBarIcon: ({ color }) => <Icon name="notifications" color={color} size={24} />,
+          tabBarColor: "green",
+          tabBarBadge: 30,
         }}
       />
       <Tab.Screen
@@ -81,6 +79,8 @@ const MainScreen: React.FC = () => {
         options={{
           tabBarLabel: "메시지",
           tabBarIcon: ({ color }) => <Icon name="message" color={color} size={24} />,
+          tabBarColor: "blue",
+          tabBarBadge: true,
         }}
       />
     </Tab.Navigator>
