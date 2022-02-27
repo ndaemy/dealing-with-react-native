@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import { useRoute } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   block: {
@@ -17,6 +18,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const IDText = () => {
+  const route = useRoute();
+  return <Text style={styles.text}>id: {route.params.id}</Text>;
+};
+
 type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 
 const DetailScreen: React.FC<DetailScreenProps> = ({ route, navigation }) => {
@@ -26,7 +32,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route, navigation }) => {
 
   return (
     <View style={styles.block}>
-      <Text style={styles.text}>id: {route.params.id}</Text>
+      <IDText />
       <View style={styles.buttons}>
         <Button
           title="Next"

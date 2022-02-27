@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RootStackParamList } from "../App";
@@ -7,6 +7,7 @@ import {
   createMaterialBottomTabNavigator,
   MaterialBottomTabNavigationProp,
 } from "@react-navigation/material-bottom-tabs";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -17,14 +18,30 @@ type MainTabParamList = {
   Message: undefined;
 };
 
+const OpenDetailButton: React.FC = () => {
+  const navigation = useNavigation();
+
+  // @ts-expect-error
+  return <Button title="Detail 1 열기" onPress={() => navigation.push("Detail", { id: 1 })} />;
+};
+
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Main"> &
   MaterialBottomTabNavigationProp<MainTabParamList, "Home">;
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC<HomeScreenProps> = () => {
+  useFocusEffect(
+    useCallback(() => {
+      console.log("focused");
+      return () => {
+        console.log("unfocused");
+      };
+    }, []),
+  );
+
   return (
     <View>
       <Text>Home</Text>
-      <Button title="Detail 1 열기" onPress={() => navigation.push("Detail", { id: 1 })} />
+      <OpenDetailButton />
     </View>
   );
 };
