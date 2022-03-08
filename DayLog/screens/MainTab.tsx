@@ -4,8 +4,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeedsScreen from './FeedsScreen';
 import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './RootStack';
 
-type BottomTabParamList = {
+export type BottomTabParamList = {
   Feeds: undefined;
   Calendar: undefined;
   Search: undefined;
@@ -13,7 +15,14 @@ type BottomTabParamList = {
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
-const MainTab: React.FC = () => {
+export type MainTabScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'MainTab'
+>;
+
+export type MainTabScreenNavigationProp = MainTabScreenProps['navigation'];
+
+const MainTab: React.FC<MainTabScreenProps> = () => {
   return (
     <Tab.Navigator
       screenOptions={{
