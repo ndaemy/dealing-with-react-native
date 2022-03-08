@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-type Log = {
+export type Log = {
   id: string;
   title: string;
   body: string;
