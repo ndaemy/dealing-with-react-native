@@ -19,7 +19,14 @@ const LogContext = createContext<{
 });
 
 export const LogContextProvider: React.FC = ({ children }) => {
-  const [logs, setLogs] = useState<Log[]>([]);
+  const [logs, setLogs] = useState<Log[]>(
+    Array.from({ length: 3 }).map((_, index) => ({
+      id: uuidv4(),
+      title: `Log ${index}`,
+      body: `Log ${index}`,
+      date: new Date().toISOString(),
+    })),
+  );
 
   const onCreate: OnCreate = ({ title, body, date }) => {
     const log: Log = {
