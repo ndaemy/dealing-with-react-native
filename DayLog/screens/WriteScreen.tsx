@@ -29,9 +29,11 @@ export type WriteScreenProps = NativeStackScreenProps<
 
 export type WriteScreenNavigationProp = WriteScreenProps['navigation'];
 
-const WriteScreen: React.FC<WriteScreenProps> = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+const WriteScreen: React.FC<WriteScreenProps> = ({ route }) => {
+  const log = route.params.log;
+
+  const [title, setTitle] = useState(log?.title ?? '');
+  const [body, setBody] = useState(log?.body ?? '');
 
   const navigation = useNavigation<WriteScreenNavigationProp>();
 

@@ -1,12 +1,15 @@
 import React from 'react';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTab, { BottomTabParamList } from './MainTab';
 import WriteScreen from './WriteScreen';
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { Log } from '../contexts/LogContext';
 
 export type RootStackParamList = {
   MainTab: NavigatorScreenParams<BottomTabParamList>;
-  Write: undefined;
+  Write: {
+    log?: Log;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

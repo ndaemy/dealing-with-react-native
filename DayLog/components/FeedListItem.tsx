@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Log } from '../contexts/LogContext';
+import { MainTabScreenNavigationProp } from '../screens/MainTab';
 
 function formatDate(date: number | string | Date) {
   const d = new Date(date);
@@ -57,6 +59,13 @@ type FeedListItemProps = {
 
 const FeedListItem: React.FC<FeedListItemProps> = ({ log }) => {
   const { title, body, date } = log;
+  const navigation = useNavigation<MainTabScreenNavigationProp>();
+
+  const onPress = () => {
+    navigation.navigate('Write', {
+      log,
+    });
+  };
 
   return (
     <Pressable
@@ -64,7 +73,8 @@ const FeedListItem: React.FC<FeedListItemProps> = ({ log }) => {
         styles.block,
         Platform.OS === 'ios' && pressed && { backgroundColor: '#efefef' },
       ]}
-      android_ripple={{ color: '#ededed' }}>
+      android_ripple={{ color: '#ededed' }}
+      onPress={onPress}>
       <Text style={styles.date}>{formatDate(date)}</Text>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.body}>{truncate(body)}</Text>
