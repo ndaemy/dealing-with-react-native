@@ -10,12 +10,16 @@ export type Log = {
 
 type OnCreate = ({ title, body, date }: Omit<Log, 'id'>) => void;
 
+type OnModify = ({ id, title, body, date }: Log) => void;
+
 const LogContext = createContext<{
   logs: Log[];
   onCreate: OnCreate;
+  onModify: OnModify;
 }>({
   logs: [],
   onCreate: () => {},
+  onModify: () => {},
 });
 
 export const LogContextProvider: React.FC = ({ children }) => {
@@ -38,8 +42,14 @@ export const LogContextProvider: React.FC = ({ children }) => {
     setLogs([log, ...logs]);
   };
 
+  const onModify: OnModify = modified => {
+    // logs 배열을 순회해 id가 일치하면 log를 교체하고 그렇지 않으면 유지
+    const nextLogs = logs.map(log => (log.id === modified.id ? modified : log));
+    setLogs(nextLogs);
+  };
+
   return (
-    <LogContext.Provider value={{ logs, onCreate }}>
+    <LogContext.Provider value={{ logs, onCreate, onModify }}>
       {children}
     </LogContext.Provider>
   );
