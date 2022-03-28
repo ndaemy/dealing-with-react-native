@@ -12,14 +12,18 @@ type OnCreate = ({ title, body, date }: Omit<Log, 'id'>) => void;
 
 type OnModify = ({ id, title, body, date }: Log) => void;
 
+type OnRemove = ({ id }: Pick<Log, 'id'>) => void;
+
 const LogContext = createContext<{
   logs: Log[];
   onCreate: OnCreate;
   onModify: OnModify;
+  onRemove: OnRemove;
 }>({
   logs: [],
   onCreate: () => {},
   onModify: () => {},
+  onRemove: () => {},
 });
 
 export const LogContextProvider: React.FC = ({ children }) => {
@@ -48,8 +52,13 @@ export const LogContextProvider: React.FC = ({ children }) => {
     setLogs(nextLogs);
   };
 
+  const onRemove: OnRemove = ({ id }) => {
+    const nextLogs = logs.filter(log => log.id !== id);
+    setLogs(nextLogs);
+  };
+
   return (
-    <LogContext.Provider value={{ logs, onCreate, onModify }}>
+    <LogContext.Provider value={{ logs, onCreate, onModify, onRemove }}>
       {children}
     </LogContext.Provider>
   );
