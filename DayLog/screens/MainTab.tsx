@@ -6,6 +6,7 @@ import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from './RootStack';
+import SearchHeader from '../components/SearchHeader';
 
 export type BottomTabParamList = {
   Feeds: undefined;
@@ -54,6 +55,7 @@ const MainTab: React.FC<MainTabScreenProps> = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="search" size={size} color={color} />
           ),
+          headerTitle: () => <SearchHeader />,
         }}
       />
     </Tab.Navigator>
