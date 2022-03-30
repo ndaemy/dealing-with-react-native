@@ -23,9 +23,14 @@ const styles = StyleSheet.create({
 type FeedListProps = {
   logs: Log[];
   onScrolledToBottom?: (isBottom: boolean) => void;
+  ListHeaderComponent?: React.ReactElement;
 };
 
-const FeedList: React.FC<FeedListProps> = ({ logs, onScrolledToBottom }) => {
+const FeedList: React.FC<FeedListProps> = ({
+  logs,
+  onScrolledToBottom,
+  ListHeaderComponent,
+}) => {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!onScrolledToBottom) {
       return;
@@ -54,6 +59,7 @@ const FeedList: React.FC<FeedListProps> = ({ logs, onScrolledToBottom }) => {
       keyExtractor={log => log.id}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       onScroll={onScroll}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 };
