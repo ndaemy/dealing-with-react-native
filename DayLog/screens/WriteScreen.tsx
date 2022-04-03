@@ -35,6 +35,7 @@ const WriteScreen: React.FC<WriteScreenProps> = ({ route }) => {
 
   const [title, setTitle] = useState(log?.title ?? '');
   const [body, setBody] = useState(log?.body ?? '');
+  const [date, setDate] = useState(log ? new Date(log.date) : new Date());
 
   const navigation = useNavigation<WriteScreenNavigationProp>();
 
@@ -44,7 +45,7 @@ const WriteScreen: React.FC<WriteScreenProps> = ({ route }) => {
     if (log) {
       onModify({
         id: log.id,
-        date: log.date,
+        date: date.toISOString(),
         title,
         body,
       });
@@ -52,7 +53,7 @@ const WriteScreen: React.FC<WriteScreenProps> = ({ route }) => {
       onCreate({
         title,
         body,
-        date: new Date().toISOString(),
+        date: date.toISOString(),
       });
     }
     navigation.pop();
@@ -87,6 +88,8 @@ const WriteScreen: React.FC<WriteScreenProps> = ({ route }) => {
           onSave={onSave}
           onAskRemove={onAskRemove}
           isEditing={!!log}
+          date={date}
+          onChangeDate={setDate}
         />
         <WriteEditor
           title={title}
