@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Reducer, useReducer } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { WriteScreenNavigationProp } from '../screens/WriteScreen';
@@ -6,6 +6,35 @@ import TransparentCircleButton from './TransparentCircleButton';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+
+type State = {
+  mode: 'date' | 'time' | 'datetime';
+  visible: boolean;
+};
+
+type Action = {
+  type: 'open' | 'close';
+  mode?: 'date' | 'time' | 'datetime';
+};
+
+const initialState: State = { mode: 'date', visible: false };
+
+const reducer: Reducer<State, Action> = (state, action) => {
+  switch (action.type) {
+    case 'open':
+      return {
+        mode: action.mode!,
+        visible: true,
+      };
+    case 'close':
+      return {
+        ...state,
+        visible: false,
+      };
+    default:
+      throw new Error('Unhandled action type');
+  }
+};
 
 const styles = StyleSheet.create({
   block: {
@@ -66,8 +95,10 @@ const WriteHeader: React.FC<WriteHeaderProps> = ({
   date,
   onChangeDate,
 }) => {
-  const [mode, setMode] = useState('date');
-  const [visible, setVisible] = useState(false);
+  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(
+    reducer,
+    initialState,
+  );
 
   const navigation = useNavigation<WriteScreenNavigationProp>();
 
@@ -75,23 +106,13 @@ const WriteHeader: React.FC<WriteHeaderProps> = ({
     navigation.pop();
   };
 
-  const onPressDate = () => {
-    setMode('date');
-    setVisible(true);
-  };
+  const open = (mode: 'date' | 'time') => dispatch({ type: 'open', mode });
 
-  const onPressTime = () => {
-    setMode('time');
-    setVisible(true);
-  };
+  const close = () => dispatch({ type: 'close' });
 
   const onConfirm = (selectedDate: Date) => {
-    setVisible(false);
+    close();
     onChangeDate(selectedDate);
-  };
-
-  const onCancel = () => {
-    setVisible(false);
   };
 
   return (
@@ -117,7 +138,7 @@ const WriteHeader: React.FC<WriteHeaderProps> = ({
         />
       </View>
       <View style={styles.center}>
-        <Pressable onPress={onPressDate}>
+        <Pressable onPress={() => open('date')}>
           <Text>
             {format(new Date(date), 'PPP', {
               locale: ko,
@@ -125,15 +146,15 @@ const WriteHeader: React.FC<WriteHeaderProps> = ({
           </Text>
         </Pressable>
         <View style={styles.separator} />
-        <Pressable onPress={onPressTime}>
+        <Pressable onPress={() => open('time')}>
           <Text>{format(new Date(date), 'p', { locale: ko })}</Text>
         </Pressable>
       </View>
       <DateTimePicker
-        isVisible={visible}
-        mode={mode}
+        isVisible={state.visible}
+        mode={state.mode}
         onConfirm={onConfirm}
-        onCancel={onCancel}
+        onCancel={close}
         date={date}
       />
     </View>
