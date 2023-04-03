@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Image,
   Keyboard,
@@ -10,10 +10,15 @@ import {
   View,
 } from 'react-native';
 
-export const AddTodo: FC = () => {
+type AddTodoProps = {
+  onInsert: (text: string) => void;
+};
+
+export const AddTodo = ({ onInsert }: AddTodoProps) => {
   const [text, setText] = useState('');
 
   const onPress = () => {
+    onInsert(text);
     setText('');
     Keyboard.dismiss();
   };

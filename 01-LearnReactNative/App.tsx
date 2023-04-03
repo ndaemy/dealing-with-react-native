@@ -22,6 +22,17 @@ const App = () => {
     { id: 3, text: '투두리스트 만들어보기', done: false },
   ]);
 
+  const onInsert = (text: string) => {
+    const nextId = todos.length ? todos[todos.length - 1].id + 1 : 1;
+
+    const newTodo = {
+      id: nextId,
+      text,
+      done: false,
+    };
+    setTodos([...todos, newTodo]);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
@@ -31,7 +42,7 @@ const App = () => {
         >
           <DateHead date={today} />
           {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
-          <AddTodo />
+          <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
