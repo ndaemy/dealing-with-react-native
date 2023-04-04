@@ -1,20 +1,66 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
-export default function App() {
+import { HomeScreen } from './screens/HomeScreen';
+import { DetailScreen } from './screens/DetailScreen';
+import { HeaderlessScreen } from './screens/HeaderlessScreen';
+
+export type RootStackParamList = {
+  Home: undefined;
+  Detail: {
+    id: number;
+  };
+  Headerless: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen
+          name='Home'
+          component={HomeScreen}
+          options={{
+            headerStyle: { backgroundColor: '#29b6f6' },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name='Detail'
+          component={DetailScreen}
+          options={({ navigation, route }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.pop()}>
+                <Text>Back</Text>
+              </TouchableOpacity>
+            ),
+            headerCenter: () => (
+              <View>
+                <Text>{`Detail - ${route.params.id}`}</Text>
+              </View>
+            ),
+            headerRight: () => (
+              <View>
+                <Text>Right</Text>
+              </View>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name='Headerless'
+          component={HeaderlessScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
