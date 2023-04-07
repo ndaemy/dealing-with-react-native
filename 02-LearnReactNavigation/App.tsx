@@ -1,50 +1,28 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { Button, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen } from './screens/HomeScreen';
-import { SettingScreen } from './screens/SettingScreen';
+import { DetailScreen } from './screens/DetailScreen';
+import { BottomTabParamList, MainScreen } from './screens/MainScreen';
 
-export type RootStackParamList = {
-  Home: undefined;
-  Setting: undefined;
+export type StackParamList = {
+  Main: NavigatorScreenParams<BottomTabParamList>;
+  Detail: {
+    id: number;
+  };
 };
 
-const Drawer = createDrawerNavigator<RootStackParamList>();
+const Stack = createStackNavigator<StackParamList>();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName='Home'
-        backBehavior='history'
-        screenOptions={{
-          drawerActiveBackgroundColor: '#fb8c00',
-          drawerActiveTintColor: 'white',
-          drawerPosition: 'left',
-        }}
-        drawerContent={({ navigation }) => (
-          <SafeAreaView>
-            <Text>A Custom Drawer</Text>
-            <Button
-              title='Close drawer'
-              onPress={() => navigation.closeDrawer()}
-            />
-          </SafeAreaView>
-        )}
-      >
-        <Drawer.Screen
-          name='Home'
-          component={HomeScreen}
-          options={{ title: '홈' }}
-        />
-        <Drawer.Screen
-          name='Setting'
-          component={SettingScreen}
-          options={{ title: '설정' }}
-        />
-      </Drawer.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name='Main' component={MainScreen} />
+        <Stack.Screen name='Detail' component={DetailScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
