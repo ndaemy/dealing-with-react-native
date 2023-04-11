@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { registerRootComponent } from 'expo';
+import 'react-native-get-random-values';
 
 import { LogContextProvider } from './contexts/LogContext';
 import { RootStack } from './screens';
