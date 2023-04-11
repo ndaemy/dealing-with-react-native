@@ -1,7 +1,28 @@
 import { createContext, PropsWithChildren, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-type Log = {
+const INITIAL_DATA = [
+  {
+    id: uuidv4(),
+    title: 'Log 03',
+    body: 'This is the third log',
+    date: new Date().toISOString(),
+  },
+  {
+    id: uuidv4(),
+    title: 'Log 02',
+    body: 'This is the second log',
+    date: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
+  },
+  {
+    id: uuidv4(),
+    title: 'Log 01',
+    body: 'This is the first log',
+    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+  },
+];
+
+export type Log = {
   id: string;
   title: string;
   body: string;
@@ -19,7 +40,7 @@ export const LogContext = createContext<LogContextType>({
 });
 
 export const LogContextProvider = ({ children }: PropsWithChildren) => {
-  const [logs, setLogs] = useState<Log[]>([]);
+  const [logs, setLogs] = useState<Log[]>(INITIAL_DATA);
 
   const onCreate = ({ title, body, date }: Omit<Log, 'id'>) => {
     const log: Log = {
@@ -28,7 +49,7 @@ export const LogContextProvider = ({ children }: PropsWithChildren) => {
       body,
       date,
     };
-    setLogs([...logs, log]);
+    setLogs([log, ...logs]);
   };
 
   return (
