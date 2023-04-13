@@ -1,26 +1,12 @@
 import { createContext, PropsWithChildren, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const INITIAL_DATA = [
-  {
-    id: uuidv4(),
-    title: 'Log 03',
-    body: 'This is the third log',
-    date: new Date().toISOString(),
-  },
-  {
-    id: uuidv4(),
-    title: 'Log 02',
-    body: 'This is the second log',
-    date: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
-  },
-  {
-    id: uuidv4(),
-    title: 'Log 01',
-    body: 'This is the first log',
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
-  },
-];
+const INITIAL_DATA = Array.from({ length: 10 }, (_, i) => ({
+  id: uuidv4(),
+  title: `Log ${i + 1}`,
+  body: `Log ${i + 1} body`,
+  date: new Date().toISOString(),
+})).reverse();
 
 export type Log = {
   id: string;
