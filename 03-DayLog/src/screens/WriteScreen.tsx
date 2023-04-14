@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useContext, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,10 +8,15 @@ import { WriteHeader } from '../components/WriteHeader';
 import { WriteEditor } from '../components/WriteEditor';
 import { LogContext } from '../contexts/LogContext';
 import { NavigationProp } from './types';
+import { RootStackParamList } from './RootStack';
 
-export const WriteScreen = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+type WriteScreenProps = NativeStackScreenProps<RootStackParamList, 'Write'>;
+
+export const WriteScreen = ({ route }: WriteScreenProps) => {
+  const log = route.params?.log;
+
+  const [title, setTitle] = useState(log?.title ?? '');
+  const [body, setBody] = useState(log?.body ?? '');
   const navigation = useNavigation<NavigationProp>();
 
   const { onCreate } = useContext(LogContext);

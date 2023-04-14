@@ -1,8 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { Log } from '../contexts/LogContext';
+import { NavigationProp } from '../screens/types';
 
 const formatDate = (date: string) => {
   const d = new Date(date);
@@ -29,6 +31,13 @@ type FeedListItemProps = {
 
 export const FeedListItem = ({ log }: FeedListItemProps) => {
   const { title, body, date } = log;
+  const navigation = useNavigation<NavigationProp>();
+
+  const onPress = () => {
+    navigation.navigate('Write', {
+      log,
+    });
+  };
 
   return (
     <Pressable
@@ -37,6 +46,7 @@ export const FeedListItem = ({ log }: FeedListItemProps) => {
         pressed && { backgroundColor: '#efefef' },
       ]}
       android_ripple={{ color: '#ededed' }}
+      onPress={onPress}
     >
       <Text style={styles.date}>{formatDate(date)}</Text>
       <Text style={styles.title}>{title}</Text>
