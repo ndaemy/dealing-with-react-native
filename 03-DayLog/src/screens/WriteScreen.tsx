@@ -19,9 +19,14 @@ export const WriteScreen = ({ route }: WriteScreenProps) => {
   const [body, setBody] = useState(log?.body ?? '');
   const navigation = useNavigation<NavigationProp>();
 
-  const { onCreate } = useContext(LogContext);
+  const { onCreate, onModify } = useContext(LogContext);
 
   const onSave = () => {
+    if (log) {
+      onModify({ ...log, title, body });
+      return;
+    }
+
     onCreate({ title, body, date: new Date().toISOString() });
     navigation.goBack();
   };
