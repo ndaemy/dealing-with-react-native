@@ -6,9 +6,15 @@ import { TransparentCircleButton } from './TransparentCircleButton';
 
 type WriteHeaderProps = {
   onSave: () => void;
+  onAskRemove: () => void;
+  isEditing: boolean;
 };
 
-export const WriteHeader = ({ onSave }: WriteHeaderProps) => {
+export const WriteHeader = ({
+  onSave,
+  onAskRemove,
+  isEditing,
+}: WriteHeaderProps) => {
   const navigation = useNavigation<NavigationProp>();
 
   const onGoBack = () => {
@@ -25,11 +31,14 @@ export const WriteHeader = ({ onSave }: WriteHeaderProps) => {
         />
       </View>
       <View style={styles.buttons}>
-        <TransparentCircleButton
-          name='delete-forever'
-          color='#ef5350'
-          hasMarginRight
-        />
+        {isEditing && (
+          <TransparentCircleButton
+            name='delete-forever'
+            color='#ef5350'
+            hasMarginRight
+            onPress={onAskRemove}
+          />
+        )}
         <TransparentCircleButton
           name='check'
           color='#009688'

@@ -19,12 +19,14 @@ type LogContextType = {
   logs: Log[];
   onCreate: (log: Omit<Log, 'id'>) => void;
   onModify: (modified: Log) => void;
+  onRemove: (id: Log['id']) => void;
 };
 
 export const LogContext = createContext<LogContextType>({
   logs: [],
   onCreate: () => {},
   onModify: () => {},
+  onRemove: () => {},
 });
 
 export const LogContextProvider = ({ children }: PropsWithChildren) => {
@@ -44,8 +46,13 @@ export const LogContextProvider = ({ children }: PropsWithChildren) => {
     setLogs(logs.map(log => (log.id === modified.id ? modified : log)));
   };
 
+  const onRemove = (id: Log['id']) => {
+    const nextLogs = logs.filter(log => log.id !== id);
+    setLogs(nextLogs);
+  };
+
   return (
-    <LogContext.Provider value={{ logs, onCreate, onModify }}>
+    <LogContext.Provider value={{ logs, onCreate, onModify, onRemove }}>
       {children}
     </LogContext.Provider>
   );

@@ -1,7 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useContext, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { WriteHeader } from '../components/WriteHeader';
@@ -19,7 +24,7 @@ export const WriteScreen = ({ route }: WriteScreenProps) => {
   const [body, setBody] = useState(log?.body ?? '');
   const navigation = useNavigation<NavigationProp>();
 
-  const { onCreate, onModify } = useContext(LogContext);
+  const { onCreate, onModify, onRemove } = useContext(LogContext);
 
   const onSave = () => {
     if (log) {
@@ -31,13 +36,36 @@ export const WriteScreen = ({ route }: WriteScreenProps) => {
     navigation.goBack();
   };
 
+  const onAskRemove = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        { text: '취소', style: 'cancel' },
+        {
+          text: '삭제',
+          onPress: () => {
+            onRemove(log?.id!);
+            navigation.goBack();
+          },
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   return (
     <SafeAreaView style={styles.block}>
       <KeyboardAvoidingView
         behavior={Platform.select({ ios: 'padding', android: undefined })}
         style={styles.avoidingView}
       >
-        <WriteHeader onSave={onSave} />
+        <WriteHeader
+          onSave={onSave}
+          onAskRemove={onAskRemove}
+          isEditing={!!log}
+        />
         <WriteEditor
           title={title}
           body={body}
