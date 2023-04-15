@@ -11,7 +11,7 @@ import { FeedListItem } from './FeedListItem';
 
 type FeedListProps = {
   logs: Log[];
-  onScrolledToBottom: (isBottom: boolean) => void;
+  onScrolledToBottom?: (isBottom: boolean) => void;
 };
 
 export const FeedList = ({ logs, onScrolledToBottom }: FeedListProps) => {
