@@ -23,16 +23,17 @@ export const WriteScreen = ({ route }: WriteScreenProps) => {
   const [title, setTitle] = useState(log?.title ?? '');
   const [body, setBody] = useState(log?.body ?? '');
   const navigation = useNavigation<NavigationProp>();
+  const [date, setDate] = useState(log ? new Date(log.date) : new Date());
 
   const { onCreate, onModify, onRemove } = useContext(LogContext);
 
   const onSave = () => {
     if (log) {
-      onModify({ ...log, title, body });
+      onModify({ ...log, date: date.toISOString(), title, body });
       return;
     }
 
-    onCreate({ title, body, date: new Date().toISOString() });
+    onCreate({ title, body, date: date.toISOString() });
     navigation.goBack();
   };
 
@@ -65,6 +66,8 @@ export const WriteScreen = ({ route }: WriteScreenProps) => {
           onSave={onSave}
           onAskRemove={onAskRemove}
           isEditing={!!log}
+          date={date}
+          onChangeDate={setDate}
         />
         <WriteEditor
           title={title}
