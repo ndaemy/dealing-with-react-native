@@ -1,12 +1,13 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const INITIAL_DATA = Array.from({ length: 10 }, (_, i) => ({
-  id: uuidv4(),
-  title: `Log ${i + 1}`,
-  body: `Log ${i + 1} body`,
-  date: new Date().toISOString(),
-})).reverse();
+import { logsStorage } from '../storages/logsStorage';
 
 export type Log = {
   id: string;
@@ -30,7 +31,25 @@ export const LogContext = createContext<LogContextType>({
 });
 
 export const LogContextProvider = ({ children }: PropsWithChildren) => {
-  const [logs, setLogs] = useState<Log[]>(INITIAL_DATA);
+  const initialLogRef = useRef<Log[] | null>(null);
+  const [logs, setLogs] = useState<Log[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const savedLogs = await logsStorage.getLogs();
+      if (savedLogs) {
+        initialLogRef.current = savedLogs;
+        setLogs(savedLogs);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (logs === initialLogRef.current) {
+      return;
+    }
+    logsStorage.setLogs(logs);
+  }, [logs]);
 
   const onCreate = ({ title, body, date }: Omit<Log, 'id'>) => {
     const log: Log = {
