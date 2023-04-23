@@ -1,16 +1,18 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Text } from 'react-native';
 
-const Stack = createNativeStackNavigator();
+import { RootStackParamList } from '~/navigation/types';
+import { SignInScreen } from '~/screens/SignInScreen';
 
-const HomeScreen = () => {
-  return <Text>Home</Text>;
-};
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Home' component={HomeScreen} />
+      <Stack.Screen
+        name='SignIn'
+        component={SignInScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
