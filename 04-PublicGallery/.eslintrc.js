@@ -25,5 +25,8 @@ module.exports = {
     project: './tsconfig.json',
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint'],
-  rules: {},
+  rules: {
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+  },
 };
