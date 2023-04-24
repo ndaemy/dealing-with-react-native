@@ -5,6 +5,9 @@ export type RootStackParamList = {
   SignIn?: {
     isSignUp?: boolean;
   };
+  Welcome: {
+    uid: string;
+  };
 };
 
 export type RootStackNavigationProps<T extends keyof RootStackParamList> =

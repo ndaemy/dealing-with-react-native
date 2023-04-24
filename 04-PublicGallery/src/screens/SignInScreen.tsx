@@ -1,5 +1,5 @@
 import { FirebaseError } from '@firebase/util';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import {
   Alert,
@@ -14,8 +14,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignButtons } from '~/components/SignButtons';
 import { SignForm, SignFormType } from '~/components/SignForm';
-import { RootStackRouteProps } from '~/navigation/types';
+import {
+  RootStackNavigationProps,
+  RootStackRouteProps,
+} from '~/navigation/types';
 import { signIn, signUp } from '~/lib/firebaseAuth';
+import { getUser } from '~/lib/users';
 
 export const SignInScreen = () => {
   const [form, setForm] = useState<SignFormType>({
@@ -24,6 +28,8 @@ export const SignInScreen = () => {
     passwordConfirm: '',
   });
   const [loading, setLoading] = useState(false);
+
+  const navigation = useNavigation<RootStackNavigationProps<'SignIn'>>();
 
   const createChangeHandler = (key: keyof typeof form) => (value: string) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -43,7 +49,12 @@ export const SignInScreen = () => {
 
     try {
       const { user } = isSignUp ? await signUp(info) : await signIn(info);
-      console.log(user);
+      const profile = await getUser(user.uid);
+      if (!profile) {
+        navigation.navigate('Welcome', { uid: user.uid });
+      } else {
+        // TODO: 구현 예정
+      }
     } catch (e) {
       if (e instanceof FirebaseError) {
         const messages = {

@@ -15,7 +15,7 @@ const usersRef = collection(db, 'users');
 type CreateUserParams = {
   id: string;
   displayName: string;
-  photoUrl: string;
+  photoUrl: string | null;
 };
 
 export const createUser = ({ id, displayName, photoUrl }: CreateUserParams) => {
