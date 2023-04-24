@@ -4,8 +4,14 @@
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "~/*": ["*"]
+      "~/*": [
+        "*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".eslintrc.js"
+  ]
 }
