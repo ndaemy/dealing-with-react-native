@@ -9,16 +9,20 @@ import { signOut } from '~/lib/firebaseAuth';
 import { StyleSheet, View } from 'react-native';
 import { BorderedInput } from '~/components/BorderedInput';
 import { CustomButton } from '~/components/CustomButton';
+import { useUserContext } from '~/contexts/UserContext';
 
 export const SetupProfile = () => {
   const [displayName, setDisplayName] = useState('');
   const navigation = useNavigation<RootStackNavigationProps<'Welcome'>>();
+  const { setUser } = useUserContext();
 
   const { params } = useRoute<RootStackRouteProps<'Welcome'>>();
   const { uid } = params;
 
   const onSubmit = () => {
-    createUser({ id: uid, displayName, photoUrl: null });
+    const user = { id: uid, displayName, photoUrl: null };
+    createUser(user);
+    setUser(user);
   };
 
   const onCancel = () => {

@@ -6,7 +6,10 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
+import { User } from '~/contexts/UserContext';
 import { app } from './firebaseConfig';
+
+type UserData = Omit<User, 'id'>;
 
 const db = getFirestore(app);
 
@@ -27,5 +30,5 @@ export const createUser = ({ id, displayName, photoUrl }: CreateUserParams) => {
 
 export const getUser = async (id: string) => {
   const user = await getDoc(doc(usersRef, id));
-  return user.data();
+  return user.data() as UserData | undefined;
 };

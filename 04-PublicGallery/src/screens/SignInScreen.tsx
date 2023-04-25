@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignButtons } from '~/components/SignButtons';
 import { SignForm, SignFormType } from '~/components/SignForm';
+import { useUserContext } from '~/contexts/UserContext';
 import {
   RootStackNavigationProps,
   RootStackRouteProps,
@@ -28,6 +29,7 @@ export const SignInScreen = () => {
     passwordConfirm: '',
   });
   const [loading, setLoading] = useState(false);
+  const { setUser } = useUserContext();
 
   const navigation = useNavigation<RootStackNavigationProps<'SignIn'>>();
 
@@ -50,10 +52,11 @@ export const SignInScreen = () => {
     try {
       const { user } = isSignUp ? await signUp(info) : await signIn(info);
       const profile = await getUser(user.uid);
+
       if (!profile) {
         navigation.navigate('Welcome', { uid: user.uid });
       } else {
-        // TODO: 구현 예정
+        setUser({ id: user.uid, ...profile });
       }
     } catch (e) {
       if (e instanceof FirebaseError) {
