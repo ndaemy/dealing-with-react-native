@@ -1,13 +1,19 @@
 import { NextOrObserver, User } from '@firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import {
+  getReactNativePersistence,
+  initializeAuth,
+} from 'firebase/auth/react-native';
 
 import { app } from './firebaseConfig';
 
-const auth = getAuth(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 
 type AuthParams = {
   email: string;
