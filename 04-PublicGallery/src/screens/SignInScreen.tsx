@@ -15,12 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SignButtons } from '~/components/SignButtons';
 import { SignForm, SignFormType } from '~/components/SignForm';
 import { useUserContext } from '~/contexts/UserContext';
+import { signIn, signUp } from '~/lib/firebaseAuth';
+import { getUser } from '~/lib/users';
 import {
   RootStackNavigationProps,
   RootStackRouteProps,
-} from '~/navigation/types';
-import { signIn, signUp } from '~/lib/firebaseAuth';
-import { getUser } from '~/lib/users';
+} from '~/navigation/RootStackTypes';
 
 export const SignInScreen = () => {
   const [form, setForm] = useState<SignFormType>({

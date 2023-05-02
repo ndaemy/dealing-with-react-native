@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { useUserContext } from '~/contexts/UserContext';
-import { RootStackParamList } from '~/navigation/types';
+import { RootStackParamList } from '~/navigation/RootStackTypes';
 import { SignInScreen } from '~/screens/SignInScreen';
 import { WelcomeScreen } from '~/screens/WelcomeScreen';
 import { MainTab } from '~/screens/MainTab';

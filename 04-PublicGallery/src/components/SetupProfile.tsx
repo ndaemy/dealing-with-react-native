@@ -21,11 +21,11 @@ import { useUserContext } from '~/contexts/UserContext';
 import blankProfile from '~/images/user.png';
 import { signOut } from '~/lib/firebaseAuth';
 import { createUser } from '~/lib/users';
+import { uriToBlob } from '~/lib/fileConvertors';
 import {
   RootStackNavigationProps,
   RootStackRouteProps,
-} from '~/navigation/types';
-import { uriToBlob } from '~/lib/fileConvertors';
+} from '~/navigation/RootStackTypes';
 
 export const SetupProfile = () => {
   const [displayName, setDisplayName] = useState('');

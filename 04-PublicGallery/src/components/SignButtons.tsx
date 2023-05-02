@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { RootStackNavigationProps } from '~/navigation/types';
-import { CustomButton } from '~/components/CustomButton';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+
+import { CustomButton } from '~/components/CustomButton';
+import { RootStackNavigationProps } from '~/navigation/RootStackTypes';
 
 type SignButtonsProps = {
   isSignUp?: boolean;
