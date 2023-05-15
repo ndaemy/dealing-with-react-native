@@ -8,6 +8,7 @@ import { WelcomeScreen } from '~/screens/WelcomeScreen';
 import { MainTab } from '~/screens/MainTab';
 import { subscribeAuth } from '~/lib/firebaseAuth';
 import { getUser } from '~/lib/users';
+import { UploadScreen } from '~/screens/UploadScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,13 +17,11 @@ export const RootStack = () => {
 
   useEffect(() => {
     return subscribeAuth(async currentUser => {
-      console.log(currentUser);
       if (!currentUser) {
         return;
       }
 
       const profile = await getUser(currentUser.uid);
-      console.log(profile);
       if (!profile) {
         return;
       }
@@ -34,11 +33,18 @@ export const RootStack = () => {
   return (
     <Stack.Navigator>
       {user ? (
-        <Stack.Screen
-          name='MainTab'
-          component={MainTab}
-          options={{ headerShown: false }}
-        />
+        <>
+          <Stack.Screen
+            name='MainTab'
+            component={MainTab}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Upload'
+            component={UploadScreen}
+            options={{ title: '새 게시물', headerBackTitle: '뒤로가기' }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen

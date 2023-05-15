@@ -6,7 +6,6 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
-import { User } from '~/contexts/UserContext';
 import { app } from './firebaseConfig';
 
 type UserData = Omit<User, 'id'>;
@@ -15,13 +14,13 @@ const db = getFirestore(app);
 
 const usersRef = collection(db, 'users');
 
-type CreateUserParams = {
+export type User = {
   id: string;
   displayName: string;
   photoUrl: string | null;
 };
 
-export const createUser = ({ id, displayName, photoUrl }: CreateUserParams) => {
+export const createUser = ({ id, displayName, photoUrl }: User) => {
   return setDoc(doc(usersRef, id), {
     displayName,
     photoUrl,

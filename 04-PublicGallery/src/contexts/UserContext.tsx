@@ -1,10 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-
-export type User = {
-  id: string;
-  displayName: string;
-  photoUrl: string | null;
-};
+import { User } from '~/lib/users';
 
 type UserContextType = {
   user: User | null;

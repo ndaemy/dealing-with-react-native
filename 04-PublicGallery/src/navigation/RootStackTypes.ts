@@ -1,8 +1,12 @@
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ImagePickerResult } from 'expo-image-picker';
 
 export type RootStackParamList = {
   MainTab: undefined;
+  Upload: {
+    image: ImagePickerResult;
+  };
   SignIn?: {
     isSignUp?: boolean;
   };

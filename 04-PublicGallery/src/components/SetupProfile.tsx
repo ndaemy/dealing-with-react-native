@@ -42,8 +42,6 @@ export const SetupProfile = () => {
       mediaTypes: MediaTypeOptions.Images,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0]);
     }
@@ -66,7 +64,6 @@ export const SetupProfile = () => {
       });
 
       photoUrl = await getDownloadURL(reference);
-      console.log(reference);
     }
 
     const user = { id: uid, displayName, photoUrl: photoUrl };
